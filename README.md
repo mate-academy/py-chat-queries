@@ -15,7 +15,7 @@ Consider the following models:
 3. `Message` model:
    * `text` - message content
    * `sent` - time when message was sent
-   * `delivered` - boolean value, `True` if message was delivered successfully
+   * `is_delivered` - boolean value, `True` if message was delivered successfully
    * `user` - foreign key, points to the sender
    * `chat` - foreign key, points to the chat where the message was sent
 
@@ -31,7 +31,8 @@ Use case-insensitive containment test.
 2. `get_untitled_chats` - should return chats which title starts with `"Untitled"` string.
 For example, chats `Untitled`, `Untitled(1)`, `Untitled(2)` should be considered as untitled.
 
-3. `get_users_who_delivered_messages_in_2015` - should return list of users who sent messages in 2015.
+3. `get_users_who_sent_messages_in_2015` - should return list of tuples with `first_name` and `last_name` of users 
+who sent messages in 2015. Use `values_list`.
 
 4. `get_actual_chats` - should return list of the actual chats.
 Chats is actual when it is a message in it that was sent no later than 2020.
@@ -54,6 +55,7 @@ print(
     users[0].num_messages  # 7
 )
 ```
+Note: Use `list()` to convert `QuerySet` to the `list`. 
 
 Also, write two more functions which should user `select_related` and `prefetch_related` methods to decrease the number of queries to the database.
 

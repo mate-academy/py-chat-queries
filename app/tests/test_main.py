@@ -3,7 +3,7 @@ from ..main import User
 from ..db.services import (
     get_messages_that_contain_word,
     get_untitled_chats,
-    get_users_who_delivered_messages_in_2015,
+    get_users_who_sent_messages_in_2015,
     get_actual_chats,
     get_messages_contain_authors_first_name,
     get_users_who_sent_messages_starts_with_m_or_a,
@@ -29,9 +29,9 @@ def test_get_untitled_chats(db, django_db_setup):
     assert sorted(titles) == sorted(["Untitled", "Untitled 2"])
 
 
-def test_get_users_who_delivered_messages_in_2015(db, django_db_setup):
-    users = get_users_who_delivered_messages_in_2015()
-    assert sorted([user.username for user in users]) == sorted(["harry123"])
+def test_get_users_who_sent_messages_in_2015(db, django_db_setup):
+    users = get_users_who_sent_messages_in_2015()
+    assert users == [("Harry", "Potter")]
 
 
 def test_get_actual_chats(db, django_db_setup):

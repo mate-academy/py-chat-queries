@@ -93,7 +93,7 @@
     "fields": {
       "text": "Hello, mates!",
       "sent": "2015-02-03T00:00:00",
-      "delivered": true,
+      "is_delivered": true,
       "user": 1,
       "chat": 2
     }
@@ -104,7 +104,7 @@
     "fields": {
       "text": "I'm harry123",
       "sent": "2020-02-03T00:00:00",
-      "delivered": true,
+      "is_delivered": true,
       "user": 1,
       "chat": 2
     }
@@ -115,7 +115,7 @@
     "fields": {
       "text": "Abla-bla",
       "sent": "2022-03-15T00:00:00",
-      "delivered": false,
+      "is_delivered": false,
       "user": 2,
       "chat": 2
     }
@@ -126,7 +126,7 @@
     "fields": {
       "text": "Hi, there!",
       "sent": "2019-12-12T00:00:00",
-      "delivered": true,
+      "is_delivered": true,
       "user": 2,
       "chat": 1
     }
@@ -137,7 +137,7 @@
     "fields": {
       "text": "Changes provided",
       "sent": "2019-12-12T00:00:00",
-      "delivered": false,
+      "is_delivered": false,
       "user": 3,
       "chat": 3
     }
@@ -148,7 +148,7 @@
     "fields": {
       "text": "Ok",
       "sent": "2020-01-02T00:00:00",
-      "delivered": true,
+      "is_delivered": true,
       "user": 4,
       "chat": 3
     }
@@ -159,7 +159,7 @@
     "fields": {
       "text": "Hello",
       "sent": "2022-01-02T00:00:00",
-      "delivered": false,
+      "is_delivered": false,
       "user": 4,
       "chat": 3
     }
