@@ -20,7 +20,7 @@ def get_actual_chats() -> List[Chat]:
     pass
 
 
-def get_messages_contain_authors_first_name():
+def get_messages_contain_authors_first_name() -> List[Message]:
     pass
 
 
