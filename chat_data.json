@@ -1,0 +1,167 @@
+[
+  {
+    "model": "db.user",
+    "pk": 1,
+    "fields": {
+      "first_name": "Harry",
+      "last_name": "Potter",
+      "username": "harry123",
+      "bio": "student"
+    }
+  },
+  {
+    "model": "db.user",
+    "pk": 2,
+    "fields": {
+      "first_name": "Hermione",
+      "last_name": "Granger",
+      "username": "hermione321",
+      "bio": "student, 16 y.o."
+    }
+  },
+  {
+    "model": "db.user",
+    "pk": 3,
+    "fields": {
+      "first_name": "Admin",
+      "last_name": "Admin",
+      "username": "admin1",
+      "bio": "admin"
+    }
+  },
+  {
+    "model": "db.user",
+    "pk": 4,
+    "fields": {
+      "first_name": "Admin",
+      "last_name": "Admin",
+      "username": "admin2",
+      "bio": "admin"
+    }
+  },
+  {
+    "model": "db.chat",
+    "pk": 1,
+    "fields": {
+      "title": "Untitled",
+      "description": null,
+      "users": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "model": "db.chat",
+    "pk": 2,
+    "fields": {
+      "title": "Gryffindor",
+      "description": "Gryffindor house chat",
+      "users": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "model": "db.chat",
+    "pk": 3,
+    "fields": {
+      "title": "Admins",
+      "description": "All admins chat",
+      "users": [
+        3,
+        4
+      ]
+    }
+  },
+  {
+    "model": "db.chat",
+    "pk": 4,
+    "fields": {
+      "title": "Untitled 2",
+      "description": null,
+      "users": [
+        1,
+        2
+      ]
+    }
+  },
+  {
+    "model": "db.message",
+    "pk": 1,
+    "fields": {
+      "text": "Hello, mates!",
+      "sent": "2015-02-03T00:00:00",
+      "delivered": true,
+      "user": 1,
+      "chat": 2
+    }
+  },
+  {
+    "model": "db.message",
+    "pk": 2,
+    "fields": {
+      "text": "I'm harry123",
+      "sent": "2020-02-03T00:00:00",
+      "delivered": true,
+      "user": 1,
+      "chat": 2
+    }
+  },
+  {
+    "model": "db.message",
+    "pk": 3,
+    "fields": {
+      "text": "Abla-bla",
+      "sent": "2022-03-15T00:00:00",
+      "delivered": false,
+      "user": 2,
+      "chat": 2
+    }
+  },
+  {
+    "model": "db.message",
+    "pk": 4,
+    "fields": {
+      "text": "Hi, there!",
+      "sent": "2019-12-12T00:00:00",
+      "delivered": true,
+      "user": 2,
+      "chat": 1
+    }
+  },
+  {
+    "model": "db.message",
+    "pk": 5,
+    "fields": {
+      "text": "Changes provided",
+      "sent": "2019-12-12T00:00:00",
+      "delivered": false,
+      "user": 3,
+      "chat": 3
+    }
+  },
+  {
+    "model": "db.message",
+    "pk": 6,
+    "fields": {
+      "text": "Ok",
+      "sent": "2020-01-02T00:00:00",
+      "delivered": true,
+      "user": 4,
+      "chat": 3
+    }
+  },
+  {
+    "model": "db.message",
+    "pk": 7,
+    "fields": {
+      "text": "Hello",
+      "sent": "2022-01-02T00:00:00",
+      "delivered": false,
+      "user": 4,
+      "chat": 3
+    }
+  }
+]

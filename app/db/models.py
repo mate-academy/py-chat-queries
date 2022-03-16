@@ -8,7 +8,10 @@ class User(models.Model):
     bio = models.CharField(max_length=255)
 
     def __repr__(self):
-        return f"User({self.first_name}, {self.last_name}, {self.username}, {self.bio})"
+        return (
+            f"User({self.first_name}, {self.last_name}, "
+            f"{self.username}, {self.bio})"
+        )
 
 
 class Chat(models.Model):
@@ -28,4 +31,7 @@ class Message(models.Model):
     chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
 
     def __repr__(self):
-        return f"Message({self.text}, {self.sent}, {self.delivered}, {self.user}, {self.chat})"
+        return (
+            f"Message({self.text}, {self.sent}, "
+            f"{self.delivered}, {self.user}, {self.chat})"
+        )

@@ -1,13 +1,10 @@
 import init_django_orm  # noqa: F401
 
-from db.models import User
+from db.models import User, Chat, Message  # noqa: F401
 
 
 def main():
-    User.objects.create(name="Dan")
-    User.objects.create(name="Robert")
-
-    return User.objects.all()
+    pass
 
 
 if __name__ == "__main__":

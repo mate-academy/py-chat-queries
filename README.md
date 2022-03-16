@@ -19,6 +19,10 @@ Consider the following models:
    * `user` - foreign key, points to the sender
    * `chat` - foreign key, points to the chat where the message was sent
 
+_Use the following command to load prepared data from fixture to test and debug your code:_
+```
+python app/manage.py loaddata chat_data.json
+```
 
 Write some services which should perform different queries on this domain:
 1. `get_messages_that_contain_word` - function should return list of messages that contains `word` in its text.
