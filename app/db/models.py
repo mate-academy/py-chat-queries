@@ -4,7 +4,7 @@ from django.db import models
 class User(models.Model):
     first_name = models.CharField(max_length=63)
     last_name = models.CharField(max_length=63)
-    username = models.CharField(max_length=63)
+    username = models.CharField(max_length=63, unique=True)
     bio = models.CharField(max_length=255)
 
     def __repr__(self):
@@ -26,12 +26,12 @@ class Chat(models.Model):
 class Message(models.Model):
     text = models.TextField()
     sent = models.DateTimeField(auto_now_add=True)
-    delivered = models.BooleanField()
+    is_delivered = models.BooleanField()
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
 
     def __repr__(self):
         return (
             f"Message({self.text}, {self.sent}, "
-            f"{self.delivered}, {self.user}, {self.chat})"
+            f"{self.is_delivered}, {self.user}, {self.chat})"
         )
