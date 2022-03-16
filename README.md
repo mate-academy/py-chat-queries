@@ -24,7 +24,7 @@ _Use the following command to load prepared data from fixture to test and debug 
 python app/manage.py loaddata chat_data.json
 ```
 
-Write some services which should perform different queries on this domain:
+Write some functions which should perform different queries on this domain:
 1. `get_messages_that_contain_word` - function should return list of messages that contains `word` in its text.
 Use case-insensitive containment test.
 
@@ -37,7 +37,7 @@ who sent messages in 2015. Use `values_list`.
 4. `get_actual_chats` - should return list of the actual chats.
 Chats is actual when it is a message in it that was sent no later than 2020.
 
-5. `get_messages_contain_authors_first_name` - should return a list of `Messages` which text contains author's `first_name`.
+5. `get_count_messages_sent_by_first_name` - should return a list of `Messages` which text contains author's `first_name`.
 
 6. `get_users_who_sent_messages_starting_with_m_or_a` - should return a list of users who sent at least one message starts with `a` or `m`.
 Use case-insensitive test.

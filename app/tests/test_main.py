@@ -8,7 +8,7 @@ from ..db.services import (
     get_messages_contain_authors_first_name,
     get_users_who_sent_messages_starts_with_m_or_a,
     get_delivered_or_admin_messages,
-    get_messages_sent_by_first_name,
+    get_count_messages_sent_by_first_name,
     get_top_users_by_number_of_the_messages,
     get_last_5_messages_dicts,
     get_chat_dicts,
@@ -66,7 +66,7 @@ def test_get_delivered_or_admin_messages(db, django_db_setup):
 
 
 def test_get_messages_sent_by_first_name(db, django_db_setup):
-    num_messages = get_messages_sent_by_first_name("Admin")
+    num_messages = get_count_messages_sent_by_first_name("Admin")
     assert num_messages == 3
 
 
