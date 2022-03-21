@@ -36,14 +36,13 @@ def get_delivered_or_admin_messages() -> List[Message]:
 
 
 def get_count_messages_sent_by_first_name(first_name: str) -> int:
-    query = Message.objects.filter(user__first_name__startswith=first_name).\
-        aggregate(Count("user"))
-    return query["user__count"]
+    return Message.objects.filter(
+        user__first_name__startswith=first_name).count()
 
 
 def get_top_users_by_number_of_the_messages() -> List[User]:
     return list(User.objects.annotate(num_messages=Count("message")).
-                order_by("num_messages"))[-3:]
+                order_by("-num_messages"))[:3]
 
 
 def get_last_5_messages_dicts() -> List[dict]:
