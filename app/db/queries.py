@@ -11,7 +11,7 @@ def get_messages_that_contain_word(word: str) -> List[Message]:
 
 
 def get_untitled_chats() -> List[Chat]:
-    return list(Chat.objects.filter(title__icontains="Untitled"))
+    return list(Chat.objects.filter(title__startswith="Untitled"))
 
 
 def get_users_who_sent_messages_in_2015() -> List[str]:
@@ -62,7 +62,7 @@ def get_last_5_messages_dicts() -> List[dict]:
             'text': message.text,
             'from': message.user.username
         }
-        for message in Message.objects.prefetch_related(
+        for message in Message.objects.select_related(
             'user').order_by('-sent').distinct()[:5]
     ]
 
