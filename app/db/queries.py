@@ -5,7 +5,7 @@ from django.db.models import Q, Count, F
 
 
 def get_messages_that_contain_word(word: str) -> List[Message]:
-    return list(Message.objects.filter(text__icontains=f"{word}"))
+    return list(Message.objects.filter(text__icontains=word"))
 
 
 def get_untitled_chats() -> List[Chat]:
