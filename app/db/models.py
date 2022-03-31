@@ -33,5 +33,5 @@ class Message(models.Model):
     def __repr__(self):
         return (
             f"Message({self.text}, {self.sent}, "
-            f"{self.is_delivered}, {self.user}, {self.chat} hhh)"
+            f"{self.is_delivered}, {self.user}, {self.chat})"
         )
