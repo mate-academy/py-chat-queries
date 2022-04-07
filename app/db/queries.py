@@ -1,6 +1,6 @@
 from typing import List
 
-from app.db.models import Message, User, Chat
+from db.models import Message, User, Chat
 from django.db.models import Q, Count, F
 
 
@@ -29,8 +29,8 @@ def get_messages_contain_authors_first_name():
 
 def get_users_who_sent_messages_starts_with_m_or_a() -> List[User]:
     return list(User.objects.filter(
-        Q(message__text__istartswith="a" | Q(message__text__istartswith="m"))
-    ))
+        Q(message__text__istartswith="a") | Q(message__text__istartswith="m"))
+    )
 
 
 def get_delivered_or_admin_messages() -> List[Message]:
@@ -47,7 +47,7 @@ def get_count_messages_sent_by_first_name(first_name: str) -> int:
 
 def get_top_users_by_number_of_the_messages() -> List[User]:
     return list(User.objects.annotate(
-        num_massages=Count("message")
+        num_messages=Count("message")
     ).order_by("-num_messages")[:3])
 
 
