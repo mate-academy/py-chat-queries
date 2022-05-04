@@ -49,10 +49,9 @@ def get_top_users_by_number_of_the_messages() -> List[User]:
 
 def get_last_5_messages_dicts() -> List[dict]:
     return [
-        {
-            "from": msg.user.username,
-            "text": msg.text
-        } for msg in Message.objects.select_related("user").order_by("-sent")[:5]
+        {"from": msg.user.username,
+         "text": msg.text}
+        for msg in Message.objects.select_related("user").order_by("-sent")[:5]
     ]
 
 
