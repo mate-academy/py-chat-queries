@@ -1,6 +1,6 @@
-from ..main import User
+from main import User
 
-from ..db.queries import (
+from db.queries import (
     get_messages_that_contain_word,
     get_untitled_chats,
     get_users_who_sent_messages_in_2015,
