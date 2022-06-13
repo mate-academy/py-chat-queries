@@ -21,7 +21,7 @@ Consider the following models:
 
 _Use the following command to load prepared data from fixture to test and debug your code:_
 ```
-python app/manage.py loaddata chat_data.json
+python manage.py loaddata chat_data.json
 ```
 
 Write some functions which should perform different queries on this domain:
