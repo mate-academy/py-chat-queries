@@ -37,14 +37,14 @@ who sent messages in 2015. Use `values_list`.
 4. `get_actual_chats` - should return list of the actual chats.
 Chats is actual when it is a message in it that was sent no later than 2020.
 
-5. `get_count_messages_sent_by_first_name` - should return a list of `Messages` which text contains author's `first_name`.
+5. `get_messages_contain_authors_first_name` - should return a list of `Messages` which text contains author's `first_name`.
 
 6. `get_users_who_sent_messages_starting_with_m_or_a` - should return a list of users who sent at least one message starts with `a` or `m`.
 Use case-insensitive test.
 
 7. `get_delivered_or_admin_messages` - should return a list of messages that was delivered or sent by a user whose username starts with `"admin"` prefix.
 
-8. `get_messages_sent_by_first_name` - should return number of messages sent by all users with given `first_name`
+8. `get_count_messages_sent_by_first_name` - should return number of messages sent by all users with given `first_name`
 
 9. `get_top_users_by_number_of_the_messages` - should return top-3 users by number of sent messages. They should have an additional
 field `num_messages` that should be equal to this number.
