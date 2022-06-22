@@ -33,8 +33,7 @@ def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
 def get_delivered_or_admin_messages() -> list[Message]:
     return list(
         Message.objects.filter(
-            Q(user__username__istartswith="admin") |
-            Q(is_delivered=True)))
+            Q(user__username__istartswith="admin") | Q(is_delivered=True)))
 
 
 def get_count_messages_sent_by_first_name(first_name: str) -> int:
