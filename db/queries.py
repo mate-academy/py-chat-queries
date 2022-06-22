@@ -50,7 +50,7 @@ def get_last_5_messages_dicts() -> list[dict]:
 
 
 def get_chat_dicts() -> list[dict]:
-    chats = Chat.objects.all()
+    chats = Chat.objects.prefetch_related("users")
     return [{"id": chat.id, "title": chat.title,
              "users": [user.username for user in chat.users.all()]}
             for chat in chats]
