@@ -79,6 +79,6 @@ chats = get_chat_dicts()
 # {
 #    "id": 1,
 #    "title": "My family",
-#    "participants": ["mom", "dad", "me"]
+#    "users": ["mom", "dad", "me"]
 # }
 ```
