@@ -25,38 +25,48 @@ def get_messages_contain_authors_first_name():
 
 
 def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
-    return list(User.objects.filter(
-        (Q(*[('message__text__startswith', h) for h in ["a", "m"]],
-           _connector=Q.OR))))
+    return list(
+        User.objects.filter(
+            (Q(*[('message__text__startswith', h) for h in ["a", "m"]],
+               _connector=Q.OR))
+        )
+    )
 
 
 def get_delivered_or_admin_messages() -> list[Message]:
     return list(
         Message.objects.filter(
-            Q(user__username__istartswith="admin") | Q(is_delivered=True)))
+            Q(user__username__istartswith="admin") | Q(is_delivered=True)
+        )
+    )
 
 
 def get_count_messages_sent_by_first_name(first_name: str) -> int:
     return Message.objects.filter(
-        user__first_name=first_name).aggregate(count=Count("id"))["count"]
+        user__first_name=first_name
+    ).count()
 
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
     return User.objects.annotate(
-        num_messages=Count("message")).order_by("-num_messages")[:3]
+        num_messages=Count("message")
+    ).order_by("-num_messages")[:3]
 
 
 def get_last_5_messages_dicts() -> list[dict]:
-    last_5 = list(Message.objects.order_by(
-        "-sent")[:5].values("user__username", "text"))
+    last_5 = list(
+        Message.objects.order_by("-sent")
+        .select_related("username")[:5]
+        .values("user__username", "text")
+    )
     for message in last_5:
         message["from"] = message.pop("user__username")
     return last_5
 
 
 def get_chat_dicts() -> list[dict]:
-    chats = Chat.objects.all().prefetch_related("users")
+    chats_queryset = Chat.objects.prefetch_related("users")
     return [{"id": chat.id,
              "title": chat.title,
              "users": [user.username for user in chat.users.all()]}
-            for chat in chats]
+            for chat in chats_queryset]
