@@ -52,7 +52,7 @@ def get_count_messages_sent_by_first_name(first_name: str) -> int:
 def get_top_users_by_number_of_the_messages() -> list[User]:
 
     return list(User.objects.annotate(
-        num_messages=Count("message__id")
+        num_messages=Count("message")
     ).order_by("-num_messages")[:3])
 
 
