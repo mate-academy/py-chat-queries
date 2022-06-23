@@ -57,7 +57,7 @@ print(
 ```
 Note: Use `list()` to convert `QuerySet` to the `list`. 
 
-Also, write two more functions which should user `select_related` and `prefetch_related` methods to decrease the number of queries to the database.
+Also, write two more functions which should use `select_related` and `prefetch_related` methods to decrease the number of queries to the database.
 
 1. `get_last_5_messages_dicts` - should return list that contains five last messages. 
 Each message should be represented as a dict with the following fields:
