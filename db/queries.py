@@ -40,13 +40,14 @@ def get_count_messages_sent_by_first_name(first_name: str) -> int:
 
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
-    return (User.objects.all().annotate(num_messages=Count("message"))
-            .order_by("-num_messages")[0:3])
+    return (User.objects.all().annotate(
+        num_messages=Count("message")
+    ).order_by("-num_messages")[0:3])
 
 
 def get_last_5_messages_dicts() -> list[dict]:
-    message_query = (Message.objects.select_related("user").
-                     order_by("-sent")[0:5])
+    message_query = (Message.objects.select_related(
+        "user").order_by("-sent")[0:5])
     message_list = []
     for message in message_query:
         message_list.append(
