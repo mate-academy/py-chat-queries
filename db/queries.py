@@ -61,4 +61,3 @@ def get_chat_dicts() -> List[dict]:
                        "title": chat.title,
                        "users": [user.username for user in chat.users.all()]})
     return result
-
