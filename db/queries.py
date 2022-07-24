@@ -3,44 +3,69 @@ from django.db.models import Q, Count, F
 
 
 def get_messages_that_contain_word(word: str) -> list[Message]:
-    pass
+    return list(Message.objects.filter(text__icontains=word))
 
 
 def get_untitled_chats() -> list[Chat]:
-    pass
+    return Chat.objects.filter(title__startswith="Untitled")
 
 
 def get_users_who_sent_messages_in_2015() -> list[str]:
-    pass
+    return list(
+        User.objects.filter(messages__sent__year=2015).
+        values_list("first_name", "last_name")
+    )
 
 
 def get_actual_chats() -> list[Chat]:
-    pass
+    return list(Chat.objects.filter(messages__sent__year__gte=2020).distinct())
 
 
 def get_messages_contain_authors_first_name():
-    pass
+    return list(Message.objects.filter(text__contains=F("user__first_name")))
 
 
 def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
-    pass
+    return list(
+        User.objects.filter(
+            Q
+            (messages__text__istartswith="m") | Q
+            (messages__text__istartswith="a")
+        )
+    )
 
 
 def get_delivered_or_admin_messages() -> list[Message]:
-    pass
+    return list(Message.objects.filter(
+        Q(user__username__startswith="admin") | Q(is_delivered=1))
+    )
 
 
 def get_count_messages_sent_by_first_name(first_name: str) -> int:
-    pass
+    return User.objects.filter(
+        first_name=first_name
+    ).aggregate(Count("messages"))["messages__count"]
 
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
-    pass
+    return list(User.objects.annotate(
+        num_messages=Count("messages")
+    ).order_by("-num_messages")[:3])
 
 
 def get_last_5_messages_dicts() -> list[dict]:
-    pass
+    lst = []
+    for message in Message.objects.order_by("-sent")[:5]\
+            .select_related("user").values("user__username", "text"):
+        lst.append(
+            {"from": message["user__username"], "text": message["text"]}
+        )
+    return lst
 
 
 def get_chat_dicts() -> list[dict]:
-    pass
+    lst = []
+    for chat in Chat.objects.all().prefetch_related("users"):
+        users = [user.username for user in chat.users.all()]
+        lst.append({"id": chat.id, "title": chat.title, "users": users})
+    return lst
