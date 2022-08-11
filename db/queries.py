@@ -3,7 +3,7 @@ from django.db.models import Q, Count, F
 
 
 def get_messages_that_contain_word(word: str) -> list[Message]:
-    return list(Message.objects.filter(text__icontains=f"{word}"))
+    return list(Message.objects.filter(text__icontains=word))
 
 
 def get_untitled_chats() -> list[Chat]:
@@ -60,10 +60,11 @@ def get_top_users_by_number_of_the_messages() -> list[User]:
 
 
 def get_last_5_messages_dicts() -> list[dict]:
-    messages = Message.objects.order_by("-sent").values_list(
-        "user__username", "text"
-    )[:5]
-    return [{"from": message[0], "text": message[1]} for message in messages]
+    messages = Message.objects.select_related("user").order_by("-sent")[:5]
+    return [
+        {"from": message.user.username, "text": message.text}
+        for message in messages
+    ]
 
 
 def get_chat_dicts() -> list[dict]:
