@@ -3,13 +3,13 @@ from django.db.models import Q, Count, F
 
 
 def get_messages_that_contain_word(word: str) -> list[Message]:
-    query_set = Message.objects.filter(text__icontains=word).all()
+    query_set = Message.objects.filter(text__icontains=word)
     return list(query_set)
 
 
 def get_untitled_chats() -> list[Chat]:
     query_set = Chat.objects.filter(
-        title__contains="Untitled").all()
+        title__contains="Untitled")
     return list(query_set)
 
 
@@ -21,7 +21,7 @@ def get_users_who_sent_messages_in_2015() -> list[str]:
 
 
 def get_actual_chats() -> list[Chat]:
-    return Chat.objects.filter(message__sent__year=2020).all().distinct()
+    return Chat.objects.filter(message__sent__year=2020).distinct()
 
 
 def get_messages_contain_authors_first_name():
@@ -39,7 +39,7 @@ def get_delivered_or_admin_messages() -> list[Message]:
     query_set = Message.objects.filter(
         Q(
             user__username__startswith="admin") | Q(
-            is_delivered=1)).all()
+            is_delivered=1))
     return list(query_set)
 
 
@@ -48,7 +48,7 @@ def get_count_messages_sent_by_first_name(first_name: str) -> int:
 
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
-    query_set = User.objects.all().annotate(
+    query_set = User.objects.annotate(
         num_messages=Count("message__sent")).order_by(
         "-num_messages")[:3]
     return list(query_set)
