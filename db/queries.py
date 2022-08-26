@@ -56,10 +56,10 @@ def get_top_users_by_number_of_the_messages() -> list[User]:
 
 def get_last_5_messages_dicts() -> list[dict]:
     query_set = User.objects.select_related("text").annotate(
-        **{'from': F('username')},
-        **{'text': F('message__text')}).values(
-        'from',
-        'text').order_by("-message__sent", "-message__is_delivered")[:5]
+        **{"from": F("username")},
+        **{"text": F("message__text")}).values(
+        "from",
+        "text").order_by("-message__sent", "-message__is_delivered")[:5]
     return list(query_set)
 
 
