@@ -3,19 +3,14 @@ from django.db.models import Q, Count, F
 
 
 def get_messages_that_contain_word(word: str) -> list[Message]:
-    list = []
-    message = Message.objects.filter(text__icontains=word)
-    for i in message:
-        list.append(i)
-    return list
+
+    return [message for message in Message.objects.filter(
+        text__icontains=word)]
 
 
 def get_untitled_chats() -> list[Chat]:
-    list = []
-    chats = Chat.objects.filter(title__startswith="Untitled")
-    for chat in chats:
-        list.append(chat)
-    return list
+
+    return [chat for chat in Chat.objects.filter(title__startswith="Untitled")]
 
 
 def get_users_who_sent_messages_in_2015() -> list[str]:
@@ -26,25 +21,20 @@ def get_users_who_sent_messages_in_2015() -> list[str]:
 
 
 def get_actual_chats() -> list[Chat]:
-    list = []
-    chats = Message.objects.filter(sent__year__gt="2020")
-    for chat in chats:
-        list.append(chat.chat)
-    return list
+
+    return [chat.chat for chat in Message.objects.filter(
+        sent__year__gt="2020")]
 
 
 def get_messages_contain_authors_first_name():
-    message = Message.objects.filter(text__contains=F("user__first_name"))
-    return message
+
+    return Message.objects.filter(text__contains=F("user__first_name"))
 
 
 def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
-    list = []
-    users = Message.objects.filter(
-        Q(text__istartswith="a") | Q(text__istartswith="m"))
-    for user in users:
-        list.append(user.user)
-    return list
+
+    return [user.user for user in Message.objects.filter(
+        Q(text__istartswith="a") | Q(text__istartswith="m"))]
 
 
 def get_delivered_or_admin_messages() -> list[Message]:
@@ -54,8 +44,7 @@ def get_delivered_or_admin_messages() -> list[Message]:
 
 
 def get_count_messages_sent_by_first_name(first_name: str) -> int:
-    count = Message.objects.filter(user__first_name__exact=first_name).count()
-    return count
+    return Message.objects.filter(user__first_name__exact=first_name).count()
 
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
