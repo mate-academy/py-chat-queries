@@ -3,44 +3,89 @@ from django.db.models import Q, Count, F
 
 
 def get_messages_that_contain_word(word: str) -> list[Message]:
-    pass
+    return list(Message.objects.filter(text__icontains=word))
 
 
 def get_untitled_chats() -> list[Chat]:
-    pass
+    return Chat.objects.filter(title__startswith="Untitled")
 
 
-def get_users_who_sent_messages_in_2015() -> list[str]:
-    pass
+def get_users_who_sent_messages_in_2015(year=2015) -> list[str]:
+    return list(Message.objects.filter(sent__year=year)
+                .values_list("user__first_name", "user__last_name")
+                )
 
 
-def get_actual_chats() -> list[Chat]:
-    pass
+def get_actual_chats(year=2020) -> list[Chat]:
+    chats_id = Message.objects.filter(sent__year__gte=year).values("chat")
+    return Chat.objects.filter(id__in=[value["chat"] for value in chats_id])
 
 
-def get_messages_contain_authors_first_name():
-    pass
+def get_messages_contain_authors_first_name(part_of_name=""):
+    return Message.objects.filter(text__contains=F("user__first_name"))
 
 
 def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
-    pass
+    users_id = Message.objects\
+        .filter(Q(text__istartswith="a") | Q(text__istartswith="m"))\
+        .values("user").distinct()
+    return User.objects.filter(pk__in=[value["user"] for value in users_id])
 
 
 def get_delivered_or_admin_messages() -> list[Message]:
-    pass
+    return Message.objects\
+        .filter(Q(is_delivered=True) | Q(user__username__startswith="admin"))
 
 
 def get_count_messages_sent_by_first_name(first_name: str) -> int:
-    pass
+    return Message.objects\
+        .filter(user__first_name=first_name)\
+        .aggregate(Count("sent"))["sent__count"]
 
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
-    pass
+    messages = Message.objects\
+        .values("user").annotate(num_messages=Count("id"))\
+        .order_by("-num_messages")[0: 3]
+    users = []
+    for el in messages:
+        user = User.objects.get(id=el["user"])
+        user.num_messages = el["num_messages"]
+        users.append(user)
+    return users
 
 
 def get_last_5_messages_dicts() -> list[dict]:
-    pass
+    message_list = list(
+        Message.objects
+        .all().select_related("user")
+        .order_by("-sent")
+        .values("user__username", "text")[: 5]
+    )
+    res_list = [{"from": el["user__username"],
+                 "text": el["text"]
+                 } for el in message_list
+                ]
+    return res_list
 
 
 def get_chat_dicts() -> list[dict]:
-    pass
+    chats = Chat.objects\
+        .all()\
+        .values("id", "title", "users__username")\
+        .prefetch_related("users")\
+        .values("id", "title", "users__username")
+    res_dict = dict()
+    for el in chats:
+        if el["id"] not in res_dict:
+            res_dict[el["id"]] = {"id": el["id"],
+                                  "title": el["title"],
+                                  "users": [el["users__username"]]
+                                  }
+        else:
+            need_el = res_dict[el["id"]]
+            need_el["users"].append(el["users__username"])
+    res_arr = []
+    for el in res_dict.values():
+        res_arr.append(el)
+    return res_arr
