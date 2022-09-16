@@ -43,16 +43,17 @@ def get_count_messages_sent_by_first_name(first_name: str) -> int:
         .aggregate(Count("sent"))["sent__count"]
 
 
+def update_user(user_id, count_messages):
+    user = User.objects.get(id=user_id)
+    user.num_messages = count_messages
+    return user
+
+
 def get_top_users_by_number_of_the_messages() -> list[User]:
     messages = Message.objects\
         .values("user").annotate(num_messages=Count("id"))\
         .order_by("-num_messages")[0: 3]
-    users = []
-    for el in messages:
-        user = User.objects.get(id=el["user"])
-        user.num_messages = el["num_messages"]
-        users.append(user)
-    return users
+    return [update_user(el["user"], el["num_messages"]) for el in messages]
 
 
 def get_last_5_messages_dicts() -> list[dict]:
@@ -62,11 +63,10 @@ def get_last_5_messages_dicts() -> list[dict]:
         .order_by("-sent")
         .values("user__username", "text")[: 5]
     )
-    res_list = [{"from": el["user__username"],
-                 "text": el["text"]
-                 } for el in message_list
-                ]
-    return res_list
+    return [
+        {"from": el["user__username"],
+         "text": el["text"]}
+        for el in message_list]
 
 
 def get_chat_dicts() -> list[dict]:
@@ -75,17 +75,11 @@ def get_chat_dicts() -> list[dict]:
         .values("id", "title", "users__username")\
         .prefetch_related("users")\
         .values("id", "title", "users__username")
-    res_dict = dict()
+    res_dict = {
+        el["id"]: {"id": el["id"],
+                   "title": el["title"],
+                   "users": []}
+        for el in chats}
     for el in chats:
-        if el["id"] not in res_dict:
-            res_dict[el["id"]] = {"id": el["id"],
-                                  "title": el["title"],
-                                  "users": [el["users__username"]]
-                                  }
-        else:
-            need_el = res_dict[el["id"]]
-            need_el["users"].append(el["users__username"])
-    res_arr = []
-    for el in res_dict.values():
-        res_arr.append(el)
-    return res_arr
+        res_dict[el["id"]]["users"].append(el["users__username"])
+    return [el for el in res_dict.values()]
