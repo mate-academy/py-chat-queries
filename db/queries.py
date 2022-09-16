@@ -70,4 +70,3 @@ def get_chat_dicts() -> list[dict]:
         "users": [user.username for user in chat.users.all()]
     } for chat in
         Chat.objects.all().prefetch_related("users")]
-
