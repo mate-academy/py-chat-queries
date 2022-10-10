@@ -35,7 +35,7 @@ For example, chats `Untitled`, `Untitled(1)`, `Untitled(2)` should be considered
 who sent messages in 2015. Use `values_list`.
 
 4. `get_actual_chats` - should return list of the actual chats.
-Chats is actual when it is a message in it that was sent no later than 2020.
+Chats is actual when it is a message in it that was sent later than 2020.
 
 5. `get_messages_contain_authors_first_name` - should return a list of `Messages` which text contains author's `first_name`.
 
