@@ -11,9 +11,8 @@ def get_untitled_chats() -> list[Chat]:
 
 
 def get_users_who_sent_messages_in_2015() -> list[str]:
-    users = list(Message.objects.filter(sent__year=2015).select_related(
+    return list(Message.objects.filter(sent__year=2015).select_related(
         "user").values_list("user__first_name", "user__last_name"))
-    return users
 
 
 def get_actual_chats() -> list[Chat]:
