@@ -8,42 +8,80 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Chat',
+            name="Chat",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=63)),
-                ('description', models.CharField(blank=True, max_length=255, null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=63)),
+                (
+                    "description",
+                    models.CharField(blank=True, max_length=255, null=True),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='User',
+            name="User",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('first_name', models.CharField(max_length=63)),
-                ('last_name', models.CharField(max_length=63)),
-                ('username', models.CharField(max_length=63, unique=True)),
-                ('bio', models.CharField(max_length=255)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("first_name", models.CharField(max_length=63)),
+                ("last_name", models.CharField(max_length=63)),
+                ("username", models.CharField(max_length=63, unique=True)),
+                ("bio", models.CharField(max_length=255)),
             ],
         ),
         migrations.CreateModel(
-            name='Message',
+            name="Message",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('text', models.TextField()),
-                ('sent', models.DateTimeField(auto_now_add=True)),
-                ('is_delivered', models.BooleanField()),
-                ('chat', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='db.chat')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='db.user')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("text", models.TextField()),
+                ("sent", models.DateTimeField(auto_now_add=True)),
+                ("is_delivered", models.BooleanField()),
+                (
+                    "chat",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="db.chat",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="db.user",
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='chat',
-            name='users',
-            field=models.ManyToManyField(to='db.User'),
+            model_name="chat",
+            name="users",
+            field=models.ManyToManyField(to="db.User"),
         ),
     ]
