@@ -4,7 +4,7 @@ from db.queries import get_messages_contain_authors_first_name
 
 
 def main():
-    print(get_messages_contain_authors_first_name())
+    pass
 
 
 if __name__ == "__main__":
