@@ -1,6 +1,5 @@
 from db.models import Message, User, Chat
 from django.db.models import Q, Count, F
-#import init_django_orm  # noqa: F401
 
 
 def get_messages_that_contain_word(word: str) -> list[Message]:
@@ -31,7 +30,7 @@ def get_messages_contain_authors_first_name() -> list[Message]:
     queryset = Message.objects.filter(
         text__icontains=F("user__first_name")
     )
-    return queryset
+    return list(queryset)
 
 
 def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
