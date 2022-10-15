@@ -26,7 +26,7 @@ def get_actual_chats() -> list[Chat]:
     return list(queryset)
 
 
-def get_messages_contain_authors_first_name() -> list[Message]:
+def get_messages_contain_authors_first_name():
     queryset = Message.objects.filter(
         text__icontains=F("user__first_name")
     )
