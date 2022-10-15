@@ -26,16 +26,16 @@ def get_actual_chats() -> list[Chat]:
     return list(queryset)
 
 
+def get_messages_contain_authors_first_name() -> list[Message]:
+    return list(Message.objects.filter(
+        text__icontains=F("user__first_name")))
+
+
 def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
     queryset = User.objects.filter(
         Q(message__text__istartswith="a") | Q(message__text__istartswith="m")
     )
     return list(queryset)
-
-
-def get_messages_contain_authors_first_name() -> list[Message]:
-    return list(Message.objects.filter(
-        text__icontains=F("user__first_name")))
 
 
 def get_delivered_or_admin_messages() -> list[Message]:
