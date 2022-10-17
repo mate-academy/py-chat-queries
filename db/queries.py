@@ -67,9 +67,7 @@ def get_top_users_by_number_of_the_messages() -> list[User]:
     users = [
         User.objects.get(id=message["user"]) for message in messages
     ]
-
     User.num_messages = 0
-
     for i in range(len(users)):
         users[i].num_messages = messages[i]["num_messages"]
 
