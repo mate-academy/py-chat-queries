@@ -49,7 +49,9 @@ def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
 def get_delivered_or_admin_messages() -> list[Message]:
     return list(
         Message.objects.select_related("user", "chat").
-        filter(Q(user__username__startswith="admin") | Q(is_delivered=1))
+        filter(
+            Q(user__username__startswith="admin") | Q(is_delivered=1)
+        )
     )
 
 
