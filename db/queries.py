@@ -1,5 +1,5 @@
 from db.models import Message, User, Chat
-from django.db.models import Q, Count
+from django.db.models import Count, Q
 
 
 def get_messages_that_contain_word(word: str) -> list[Message]:
