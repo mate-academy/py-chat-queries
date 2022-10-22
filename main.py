@@ -4,6 +4,7 @@ from db.models import User, Chat, Message  # noqa: F401
 
 
 def main() -> None:
+
     pass
 
 
