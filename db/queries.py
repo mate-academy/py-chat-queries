@@ -41,15 +41,7 @@ def get_delivered_or_admin_messages() -> list[Message]:
 
 
 def get_count_messages_sent_by_first_name(first_name: str) -> int:
-    return sum(
-        [count[0] for count in User.objects.filter(
-            first_name=first_name
-        ).annotate(
-            message_count=Count("message__text")
-        ).values_list(
-            "message_count"
-        )]
-    )
+    return Message.objects.filter(user__first_name=first_name).count()
 
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
