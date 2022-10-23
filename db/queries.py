@@ -65,5 +65,5 @@ def get_chat_dicts() -> list[dict]:
             "id": chat.id, "title": chat.title,
             "users": [user.username for user in chat.users.all()],
         }
-        for chat in Chat.objects.all().prefetch_related("users")
+        for chat in Chat.objects.prefetch_related("users")
     ]
