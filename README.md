@@ -25,12 +25,15 @@ python manage.py loaddata chat_data.json
 ```
 
 Write some functions which should perform different queries on this domain:
-1. `get_messages_that_contain_word` - function should return list of messages that contains `word` in its text.
+1. `get_messages_that_contain_word` - function should return list 
+of messages that contains `word` in its text.
 Use case-insensitive containment test.
 
 
-2. `get_untitled_chats` - should return chats which title starts with `"Untitled"` string.
-For example, chats `Untitled`, `Untitled(1)`, `Untitled(2)` should be considered as untitled.
+2. `get_untitled_chats` - should return chats which title starts with 
+`"Untitled"` string.
+For example, chats `Untitled`, `Untitled(1)`, `Untitled(2)` 
+should be considered as untitled.
 
 
 3. `get_users_who_sent_messages_in_2015` - should return list of tuples with `first_name` and `last_name` of users 
@@ -48,13 +51,19 @@ Chats is actual when it is a message in it that was sent later than 2020.
 Use case-insensitive test.
 
 
-7. `get_delivered_or_admin_messages` - should return a list of messages that was delivered or sent by a user whose username starts with `"admin"` prefix.
+7. `get_delivered_or_admin_messages` - should return a list of 
+messages that was delivered 
+or sent by a user whose username starts with `"admin"` prefix.
 
 
-8. `get_count_messages_sent_by_first_name` - should return number of messages sent by all users with given `first_name`.
+8. `get_count_messages_sent_by_first_name` - 
+should return number of messages sent by 
+all users with given `first_name`.
 
 
-9. `get_top_users_by_number_of_the_messages` - should return top-3 users by number of sent messages. They should have an additional
+9. `get_top_users_by_number_of_the_messages` - should return 
+top-3 users by number of sent messages. 
+They should have an additional
 field `num_messages` that should be equal to this number.
 ```python
 users = get_top_users_by_number_of_the_messages()
@@ -68,7 +77,8 @@ print(
 
 Also, write two more functions which should use `select_related` and `prefetch_related` methods to decrease the number of queries to the database.
 
-1. `get_last_5_messages_dicts` - should return list that contains five last messages. 
+1. `get_last_5_messages_dicts` - should return list that contains 
+five last messages. 
 Each message should be represented as a dict with the following fields:
    * `"from"` - a username of the sender
    * `"text"` - text of the message
