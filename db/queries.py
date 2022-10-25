@@ -4,7 +4,7 @@ from db.models import Message, User, Chat
 
 
 def get_messages_that_contain_word(word: str) -> list[Message]:
-    return list(Message.objects.filter(text__contains=word))
+    return list(Message.objects.filter(text__icontains=word))
 
 
 def get_untitled_chats() -> list[Chat]:
@@ -30,7 +30,7 @@ def get_messages_contain_authors_first_name() -> list[Message]:
 def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
     return list(
         User.objects.filter(
-            Q(message__text__startswith="a") | Q(message__text__startswith="m")
+            Q(message__text__istartswith="a") | Q(message__text__istartswith="m")
         )
     )
 
