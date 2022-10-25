@@ -35,7 +35,7 @@ def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
         User.objects.filter(
             Q(message__text__istartswith="a")
             | Q(message__text__istartswith="m")
-        ).distinct()
+        )
     )
 
 
