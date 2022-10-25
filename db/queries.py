@@ -12,16 +12,16 @@ def get_untitled_chats() -> list[Chat]:
 
 def get_users_who_sent_messages_in_2015() -> list[str]:
     return list(
-        User.objects.filter(message__sent__year=2015)
-        .values_list("first_name", "last_name")
-        .distinct()
+        User.objects.filter(message__sent__year=2015).values_list(
+            "first_name", "last_name"
+        )
     )
 
 
 def get_actual_chats() -> list[Chat]:
     return list(
         Chat.objects.annotate(Max("message__sent__year")).filter(
-            message__sent__year__max__gte=2020
+            message__sent__year__max__gt=2020
         )
     )
 
@@ -41,7 +41,7 @@ def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
         User.objects.filter(
             Q(message__text__istartswith="m")
             | Q(message__text__istartswith="a")
-        ).distinct()
+        )
     )
 
 
