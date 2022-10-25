@@ -28,9 +28,7 @@ def get_actual_chats() -> list[Chat]:
 
 def get_messages_contain_authors_first_name() -> list[Message]:
     queryset = list(
-        Message.objects.filter(
-            text__icontains=F("user__first_name")
-        ).distinct()
+        Message.objects.filter(text__icontains=F("user__first_name"))
     )
     return queryset
 
@@ -61,8 +59,9 @@ def get_count_messages_sent_by_first_name(first_name: str) -> int:
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
     queryset = list(
-        User.objects.annotate(num_messages=Count("message"))
-        .order_by("-num_messages")[:3]
+        User.objects.annotate(num_messages=Count("message")).order_by(
+            "-num_messages"
+        )[:3]
     )
     return queryset
 
@@ -70,7 +69,9 @@ def get_top_users_by_number_of_the_messages() -> list[User]:
 def get_last_5_messages_dicts() -> list[dict]:
     queryset = [
         {"from": message.user.username, "text": message.text}
-        for message in Message.objects.order_by("-sent")[:5].select_related()
+        for message in Message.objects.order_by("-sent")[:5].select_related(
+            "user"
+        )
     ]
     return queryset
 
@@ -82,6 +83,6 @@ def get_chat_dicts() -> list[dict]:
             "title": chat.title,
             "users": [name.username for name in chat.users.all()],
         }
-        for chat in Chat.objects.all().prefetch_related("users")
+        for chat in Chat.objects.prefetch_related("users")
     ]
     return queryset
