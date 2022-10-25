@@ -20,7 +20,7 @@ def get_users_who_sent_messages_in_2015() -> list[str]:
 
 
 def get_actual_chats() -> list[Chat]:
-    return list(Chat.objects.filter(message__sent__year__gt="2020").distinct())
+    return list(Chat.objects.filter(message__sent__year__gt="2020"))
 
 
 def get_messages_contain_authors_first_name() -> list[Message]:
