@@ -30,7 +30,8 @@ def get_messages_contain_authors_first_name() -> list[Message]:
 def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
     return list(
         User.objects.filter(
-            Q(message__text__istartswith="a") | Q(message__text__istartswith="m")
+            Q(message__text__istartswith="a")
+            | Q(message__text__istartswith="m")
         )
     )
 
