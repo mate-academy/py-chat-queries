@@ -6,6 +6,7 @@ class User(models.Model):
     last_name = models.CharField(max_length=63)
     username = models.CharField(max_length=63, unique=True)
     bio = models.CharField(max_length=255)
+    num_messages = models.IntegerField(null=True)
 
     def __repr__(self) -> str:
         return (
