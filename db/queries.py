@@ -1,5 +1,5 @@
 from db.models import Message, User, Chat
-from django.db.models import Q, F
+from django.db.models import Q, F, Count
 
 
 def get_messages_that_contain_word(word: str) -> list[Message]:
@@ -58,12 +58,10 @@ def get_count_messages_sent_by_first_name(first_name: str) -> int:
 
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
-    users = User.objects.all()
-    for user in users:
-        user.num_messages = user.message_set.count()
-        user.save()
     return list(
-        users.order_by("-num_messages")[:3]
+        User.objects.annotate(
+            num_messages=Count("message")
+        ).order_by("-num_messages")[:3]
     )
 
 
