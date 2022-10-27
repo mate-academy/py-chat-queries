@@ -12,7 +12,7 @@ def get_untitled_chats() -> list[Chat]:
 
 def get_users_who_sent_messages_in_2015() -> list[User]:
     return list(User.objects.filter(message__sent__year="2015").
-                values_list("first_name", "last_name").distinct())
+                values_list("first_name", "last_name"))
 
 
 def get_actual_chats() -> list[Chat]:
