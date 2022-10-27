@@ -17,7 +17,7 @@ def get_users_who_sent_messages_in_2015() -> list[str]:
 
 
 def get_actual_chats() -> list[Chat]:
-    return list(Chat.objects.filter(message__sent__year__gte=2020).distinct())
+    return list(Chat.objects.filter(message__sent__year__gt=2020))
 
 
 def get_messages_contain_authors_first_name() -> list[Message]:
@@ -52,8 +52,13 @@ def get_top_users_by_number_of_the_messages() -> list[User]:
 
 def get_last_5_messages_dicts() -> list[dict]:
     messages = Message.objects.select_related("user").order_by("-sent")[:5]
-    return [{"from": message.user.username,
-             "text": message.text} for message in messages]
+    return [
+        {
+            "from": message.user.username,
+            "text": message.text
+        }
+        for message in messages
+    ]
 
 
 def get_chat_dicts() -> list[dict]:
