@@ -3,21 +3,17 @@ from django.db.models import Q, Count, F
 
 
 def get_messages_that_contain_word(word: str) -> list[Message]:
-    return [
-        message for message in Message.objects.filter(text__icontains=word)
-    ]
+    return list(Message.objects.filter(text__icontains=word))
 
 
 def get_untitled_chats() -> list[Chat]:
-    return [
-        chat for chat in Chat.objects.filter(title__startswith="Untitled")
-    ]
+    return list(Chat.objects.filter(title__startswith="Untitled"))
 
 
 def get_users_who_sent_messages_in_2015() -> list[str]:
-    return [user for user in Message.objects.filter(
+    return list(Message.objects.filter(
         sent__year=2015
-    ).values_list("user__first_name", "user__last_name")]
+    ).values_list("user__first_name", "user__last_name"))
 
 
 def get_actual_chats() -> list[Chat]:
