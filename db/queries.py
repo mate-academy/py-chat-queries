@@ -1,5 +1,5 @@
 from db.models import Message, User, Chat
-from django.db.models import Q, Count
+from django.db.models import Q, Count, F
 
 
 def get_messages_that_contain_word(word: str) -> list[Message]:
@@ -21,7 +21,8 @@ def get_actual_chats() -> list[Chat]:
 
 
 def get_messages_contain_authors_first_name() -> list[Message]:
-    return list(Message.objects.all().filter(text__icontains=User.username))
+    return list(Message.objects.all().filter(
+        text__icontains=F("user__first_name")))
 
 
 def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
