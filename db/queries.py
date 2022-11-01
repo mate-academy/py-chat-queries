@@ -51,8 +51,8 @@ def get_last_5_messages_dicts() -> list[dict]:
     list_of_message = list(
         Message.objects.order_by("-sent")[:5].values("user__username", "text"))
     res = []
-    for i in list_of_message:
-        res.append({"from": i["user__username"], "text": i["text"]})
+    for message in list_of_message:
+        res.append({"from": message["user__username"], "text": message["text"]})
     return res
 
 
