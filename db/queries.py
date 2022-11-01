@@ -50,11 +50,11 @@ def get_top_users_by_number_of_the_messages() -> list[User]:
 def get_last_5_messages_dicts() -> list[dict]:
     list_of_message = list(
         Message.objects.order_by("-sent")[:5].values("user__username", "text"))
-    res = []
+    messages = []
     for message in list_of_message:
-        res.append({"from": message["user__username"],
-                    "text": message["text"]})
-    return res
+        messages.append({"from": message["user__username"],
+                         "text": message["text"]})
+    return messages
 
 
 def get_chat_dicts() -> list[dict]:
