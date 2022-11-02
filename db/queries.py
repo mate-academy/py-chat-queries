@@ -36,10 +36,10 @@ def get_delivered_or_admin_messages() -> list[Message]:
 
 
 def get_count_messages_sent_by_first_name(first_name: str) -> int:
-    d_res = Message.objects.filter(
+    counter = Message.objects.filter(
         user__first_name=first_name).aggregate(Count("text"))
-    d_res = d_res["text__count"]
-    return d_res
+    counter = counter["text__count"]
+    return counter
 
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
@@ -58,8 +58,8 @@ def get_last_5_messages_dicts() -> list[dict]:
 
 
 def get_chat_dicts() -> list[dict]:
-    l_res = []
+    chats = []
     for chat in Chat.objects.all().prefetch_related("users"):
         users = [user.username for user in chat.users.all()]
-        l_res.append({"id": chat.id, "title": chat.title, "users": users})
-    return l_res
+        chats.append({"id": chat.id, "title": chat.title, "users": users})
+    return chats
