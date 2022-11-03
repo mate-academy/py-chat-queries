@@ -32,16 +32,16 @@ def get_messages_contain_authors_first_name() -> list[Message]:
 def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
     return list(
         User.objects.filter(
-            Q(message__text__istartswith="a") |
-            Q(message__text__istartswith="m")
+            Q(message__text__istartswith="a") | Q(
+                message__text__istartswith="m")
         ))
 
 
 def get_delivered_or_admin_messages() -> list[Message]:
     return list(
         Message.objects.filter(
-            Q(user__username__startswith="admin") |
-            Q(is_delivered=True)
+            Q(user__username__startswith="admin") | Q(
+                is_delivered=True)
         )
     )
 
