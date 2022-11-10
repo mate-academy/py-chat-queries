@@ -5,7 +5,7 @@ from django.db.models import Q, Count, F
 
 def get_messages_that_contain_word(word: str) -> list[Message]:
     return [message for message in Message.objects.filter(
-        text__icontains=f"{word}"
+        text__icontains=word
     )]
 
 
