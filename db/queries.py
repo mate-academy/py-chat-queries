@@ -51,7 +51,7 @@ def get_top_users_by_number_of_the_messages() -> list[User]:
 
 
 def get_last_5_messages_dicts() -> list[dict]:
-    queryset = Message.objects.order_by("-sent")[:5]
+    queryset = Message.objects.order_by("-sent")[:5].select_related("user")
     return [{
         "from": message.user.username,
         "text": message.text} for message in queryset]
