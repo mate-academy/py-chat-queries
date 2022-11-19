@@ -3,11 +3,10 @@ from django.db.models import Q, Count, F
 
 
 def get_messages_that_contain_word(word: str) -> list[Message]:
-    #  used `select_related` to reduce the load on the database for example
     return list(
         Message.objects.filter(
             text__icontains=word
-        ).select_related("chat", "user")
+        )
     )
 
 
@@ -43,7 +42,7 @@ def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
 def get_delivered_or_admin_messages() -> list[Message]:
     return list(
         Message.objects.filter(
-            Q(is_delivered=1) | Q(user__username__startswith="admin")
+            Q(is_delivered=True) | Q(user__username__startswith="admin")
         )
     )
 
