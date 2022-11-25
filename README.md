@@ -74,7 +74,7 @@ Each message should be represented as a dict with the following fields:
    * `"text"` - text of the message
 ```python
 messages = get_last_5_messages_dicts()
-print(messages[3]) # {"from": "max", text: "Hello, mates!"}
+print(messages[3]) # {"from": "max", "text": "Hello, mates!"}
 ```
 
 2. `get_chat_dicts` - should return a list of chats represented by dicts.
