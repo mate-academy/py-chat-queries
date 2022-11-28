@@ -3,44 +3,40 @@ from django.db.models import Q, Count, F
 
 
 def get_messages_that_contain_word(word: str) -> list[Message]:
-    return [message for message in Message.objects.filter(text__contains=word)]
+    return list(Message.objects.filter(text__contains=word))
 
 
 def get_untitled_chats() -> list[Chat]:
-    return [chat for chat in Chat.objects.filter(title__startswith="Untitled")]
+    return list(Chat.objects.filter(title__startswith="Untitled"))
 
 
 def get_users_who_sent_messages_in_2015() -> list[str]:
-    return [message for message in Message.objects.filter(
-        sent__contains="2015"
-    ).values_list(
+    return list(Message.objects.filter(sent__contains="2015").values_list(
         "user__first_name",
         "user__last_name"
-    )]
+    ))
 
 
 def get_actual_chats() -> list[Chat]:
-    messages = Message.objects.filter(sent__contains="2020")
-    return [message.chat for message in messages]
+    return [message.chat for message in Message.objects.filter(
+        sent__contains="2020"
+    )]
 
 
 def get_messages_contain_authors_first_name() -> list[Message]:
-    return [message for message in Message.objects.filter(
-        text__contains=F("user__first_name")
-    )]
+    return list(Message.objects.filter(text__contains=F("user__first_name")))
 
 
 def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
-    return [
-        message.user for message in Message.objects.filter(
-            Q(text__istartswith="a") | Q(text__istartswith="m")
-        )]
+    return [message.user for message in Message.objects.filter(
+        Q(text__istartswith="a") | Q(text__istartswith="m")
+    )]
 
 
 def get_delivered_or_admin_messages() -> list[Message]:
-    return [message for message in Message.objects.filter(
+    return list(Message.objects.filter(
         Q(user__username__startswith="admin") | Q(is_delivered=True)
-    )]
+    ))
 
 
 def get_count_messages_sent_by_first_name(first_name: str) -> int:
@@ -48,9 +44,9 @@ def get_count_messages_sent_by_first_name(first_name: str) -> int:
 
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
-    return [user for user in User.objects.annotate(
+    return list(User.objects.annotate(
         num_messages=Count("message")
-    ).order_by("-num_messages")][:3]
+    ).order_by("-num_messages"))[:3]
 
 
 def get_last_5_messages_dicts() -> list[dict]:
