@@ -18,9 +18,7 @@ def get_users_who_sent_messages_in_2015() -> list[str]:
 
 
 def get_actual_chats() -> list[Chat]:
-    return [message.chat for message in Message.objects.filter(
-        sent__contains="2020"
-    )]
+    return list(Chat.objects.filter(message__sent__year__gt="2020"))
 
 
 def get_messages_contain_authors_first_name() -> list[Message]:
@@ -28,9 +26,9 @@ def get_messages_contain_authors_first_name() -> list[Message]:
 
 
 def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
-    return [message.user for message in Message.objects.filter(
-        Q(text__istartswith="a") | Q(text__istartswith="m")
-    )]
+    return list(User.objects.filter(
+        Q(message__text__istartswith="a") | Q(message__text__istartswith="m")
+    ))
 
 
 def get_delivered_or_admin_messages() -> list[Message]:
