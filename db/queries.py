@@ -54,8 +54,8 @@ def get_last_5_messages_dicts() -> list[dict]:
             "from": message.user.username,
             "text": message.text
         }
-        for message in Message.objects.select_related(
-            "user").order_by("-sent")[:5]
+        for message in Message.objects.select_related("user")
+        .order_by("-sent")[:5]
     )
 
 
