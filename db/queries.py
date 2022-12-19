@@ -1,4 +1,3 @@
-from datetime import date
 from db.models import Message, User, Chat
 from django.db.models import Q, Count, F
 
@@ -12,14 +11,13 @@ def get_untitled_chats() -> list[Chat]:
 
 
 def get_users_who_sent_messages_in_2015() -> list[str]:
-    message = Message.objects.filter(sent__year=date(2015, 1, 1).year)
-    return list(message.values_list("user__first_name", "user__last_name"))
+    return list(User.objects.filter(
+        message__sent__year=2015).values_list("first_name", "last_name"
+                                              ))
 
 
 def get_actual_chats() -> list[Chat]:
-    return list(Chat.objects.filter(
-        message__sent__year__gt=date(2020, 1, 1).year
-    ))
+    return list(Chat.objects.filter(message__sent__year__gt=2020))
 
 
 def get_messages_contain_authors_first_name() -> list[Message]:
@@ -38,35 +36,28 @@ def get_delivered_or_admin_messages() -> list[Message]:
 
 
 def get_count_messages_sent_by_first_name(first_name: str) -> int:
-    return len(Message.objects.filter(user__first_name=first_name))
+    return Message.objects.filter(user__first_name=first_name).count()
 
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
-    users = User.objects.annotate(
-        Count("message__text")).order_by("-message__text__count")[:3]
-    for user in users:
-        user.num_messages = user.message__text__count
-    return users
+    return list(User.objects.annotate(
+        num_messages=Count("message")).order_by("-num_messages")[:3])
 
 
 def get_last_5_messages_dicts() -> list[dict]:
     msg = Message.objects.all().select_related("user").order_by("-sent")[:5]
     values = msg.values("user__username", "text")
-    result = []
-    for value in list(values):
-        result.append({
-            "from" if k == "user__username" else k: v for k, v in value.items()
-        })
-    return result
+    return [{"from" if k == "user__username" else k: v
+             for k, v in value.items()
+             }
+            for value in list(values)
+            ]
 
 
 def get_chat_dicts() -> list[dict]:
     chats = Chat.objects.all().prefetch_related("users")
-    result_list = []
-    for chat in chats:
-        dict_ = {}
-        dict_["id"] = chat.id
-        dict_["title"] = chat.title
-        dict_["users"] = [user.username for user in chat.users.all()]
-        result_list.append(dict_)
-    return result_list
+    return [{"id": chat.id,
+             "title": chat.title,
+             "users": [user.username for user in chat.users.all()]}
+            for chat in chats
+            ]
