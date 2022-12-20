@@ -51,7 +51,7 @@ def get_last_5_messages_dicts() -> list[dict]:
         {
             "from" if key == "user__username" else key: value
             for key, value in value.items()
-         }
+        }
         for value in list(values)
     ]
 
