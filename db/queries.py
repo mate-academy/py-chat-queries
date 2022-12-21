@@ -32,7 +32,8 @@ def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
 
 def get_delivered_or_admin_messages() -> list[Message]:
     return list(Message.objects.filter(
-        Q(is_delivered=True) | Q(user__username__startswith="admin")))
+        Q(is_delivered=True) | Q(user__username__startswith="admin"))
+    )
 
 
 def get_count_messages_sent_by_first_name(first_name: str) -> int:
@@ -41,7 +42,8 @@ def get_count_messages_sent_by_first_name(first_name: str) -> int:
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
     return list(User.objects.annotate(
-        num_messages=Count("message")).order_by("-num_messages")[:3])
+        num_messages=Count("message")).order_by("-num_messages")[:3]
+    )
 
 
 def get_last_5_messages_dicts() -> list[dict]:
