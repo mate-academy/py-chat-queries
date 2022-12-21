@@ -3,11 +3,11 @@ from django.db.models import Q, Count, F
 
 
 def get_messages_that_contain_word(word: str) -> list[Message]:
-    return list(Message.objects.filter(text__contains=word).distinct())
+    return list(Message.objects.filter(text__contains=word))
 
 
 def get_untitled_chats() -> list[Chat]:
-    return Chat.objects.filter(title__startswith="Untitled")
+    return list(Chat.objects.filter(title__startswith="Untitled"))
 
 
 def get_users_who_sent_messages_in_2015() -> list[str]:
@@ -41,14 +41,8 @@ def get_delivered_or_admin_messages() -> list[Message]:
 
 
 def get_count_messages_sent_by_first_name(first_name: str) -> int:
-    return sum(
-        [
-            user["count_mes"]
-            for user in User.objects.filter(first_name=first_name)
-            .annotate(count_mes=Count("message__user"))
-            .values("count_mes")
-        ]
-    )
+    return User.objects.filter(
+        first_name=first_name).values("message__user").count()
 
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
@@ -61,7 +55,7 @@ def get_top_users_by_number_of_the_messages() -> list[User]:
 def get_last_5_messages_dicts() -> list[dict]:
     return [
         {"from": message.user.username, "text": message.text}
-        for message in Message.objects.order_by("-sent").select_related("user")
+        for message in Message.objects.select_related("user").order_by("-sent")
     ][:5]
 
 
@@ -73,5 +67,5 @@ def get_chat_dicts() -> list[dict]:
             "users": [users.username for users in chat.users.all()],
         }
         for chat in Chat.objects.all()
-        .prefetch_related("users__chat_set__users")
+        .prefetch_related("users")
     ]
