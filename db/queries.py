@@ -18,9 +18,9 @@ def get_users_who_sent_messages_in_2015() -> list[str]:
 
 
 def get_actual_chats() -> list[Chat]:
-    return list(Chat.objects.filter(
-        Q(message__sent__contains=2021)
-        | Q(message__sent__contains=2022)))
+    return list(Chat.objects
+                    .filter(Q(message__sent__contains=2021)
+                            | Q(message__sent__contains=2022)))
 
 
 def get_messages_contain_authors_first_name() -> list[Message]:
@@ -38,8 +38,9 @@ def get_delivered_or_admin_messages() -> list[Message]:
 
 
 def get_count_messages_sent_by_first_name(first_name: str) -> int:
-    return Message.objects.filter(
-        user__first_name=first_name).aggregate(Count("id"))["id__count"]
+    return (Message.objects
+                   .filter(user__first_name=first_name)
+                   .aggregate(Count("id"))["id__count"])
 
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
