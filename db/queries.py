@@ -34,8 +34,7 @@ def get_messages_contain_authors_first_name() -> list[Message]:
 
 def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
     return User.objects.filter(
-        Q(message__text__istartswith="a") |
-        Q(message__text__istartswith="m")
+        Q(message__text__istartswith="a") | Q(message__text__istartswith="m")
     )
 
 
@@ -60,8 +59,7 @@ def get_top_users_by_number_of_the_messages() -> list[User]:
 def get_last_5_messages_dicts() -> list[dict]:
     return [{"from": message.user.username, "text": message.text}
             for message in Message.objects.select_related(
-                "user"
-            ).order_by("-sent")[:5]]
+            "user").order_by("-sent")[:5]]
 
 
 def get_chat_dicts() -> list[dict]:
