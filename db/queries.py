@@ -15,9 +15,10 @@ def get_untitled_chats() -> list[Chat]:
 
 
 def get_users_who_sent_messages_in_2015() -> list[tuple]:
-    return [(user.first_name, user.last_name) for user in User.objects.filter(
-        message__sent__range=("2015-01-01", "2016-01-01")
-    )]
+    return list(Message.objects.filter(
+        sent__range=("2015-01-01", "2016-01-01")).values_list(
+        "user__first_name", "user__last_name")
+    )
 
 
 def get_actual_chats() -> list[Chat]:
