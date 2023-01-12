@@ -14,10 +14,11 @@ def get_untitled_chats() -> list[Chat]:
     )
 
 
-def get_users_who_sent_messages_in_2015() -> list[tuple]:
-    return list(Message.objects.filter(
-        sent__range=("2015-01-01", "2016-01-01")).values_list(
-        "user__first_name", "user__last_name")
+def get_users_who_sent_messages_in_2015() -> list[str]:
+    return list(
+        Message.objects.filter(
+            sent__range=("2015-01-01", "2016-01-01")
+        ).values_list("user__first_name", "user__last_name")
     )
 
 
@@ -72,7 +73,7 @@ def get_top_users_by_number_of_the_messages() -> list[User]:
 
 
 def get_last_5_messages_dicts() -> list[dict]:
-    messages = Message.objects.all().select_related(
+    messages = Message.objects.select_related(
         "user"
     ).order_by("-sent")[:5]
     return [{
@@ -86,4 +87,4 @@ def get_chat_dicts() -> list[dict]:
         "id": chat.id,
         "title": chat.title,
         "users": [user.username for user in chat.users.all()]
-    } for chat in Chat.objects.all().prefetch_related("users")]
+    } for chat in Chat.objects.prefetch_related("users")]
