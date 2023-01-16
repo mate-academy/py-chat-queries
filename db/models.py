@@ -27,8 +27,16 @@ class Message(models.Model):
     text = models.TextField()
     sent = models.DateTimeField(auto_now_add=True)
     is_delivered = models.BooleanField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User,
+        related_name="messages",
+        on_delete=models.CASCADE
+    )
+    chat = models.ForeignKey(
+        Chat,
+        related_name="messages",
+        on_delete=models.CASCADE
+    )
 
     def __repr__(self) -> str:
         return (
