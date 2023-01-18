@@ -68,12 +68,11 @@ def get_last_5_messages_dicts() -> list[dict]:
 
 
 def get_chat_dicts() -> list[dict]:
-    chats = []
-    for chat in Chat.objects.values("id", "title"):
-        chat["users"] = list(
-            User.objects.filter(chat=chat["id"]).values_list(
-                "username", flat=True
-            )
-        )
-        chats.append(chat)
-    return chats
+    return [
+        {
+            "id": chat.id,
+            "title": chat.title,
+            "users": [user.username for user in chat.users.all()],
+        }
+        for chat in Chat.objects.prefetch_related("users").all()
+    ]
