@@ -26,7 +26,7 @@ def get_actual_chats() -> list[Chat]:
 
 def get_messages_contain_authors_first_name() -> list[Message]:
     return list(
-        Message.objects.filter(text__contains=F("user__first_name"))
+        Message.objects.filter(text__icontains=F("user__first_name"))
     )
 
 
@@ -57,23 +57,21 @@ def get_top_users_by_number_of_the_messages() -> list[User]:
 
 
 def get_last_5_messages_dicts() -> list[dict]:
-    messages = []
-    for message in (
-            Message.objects.select_related("user").order_by("-sent")[:5]
-    ):
-        messages.append({"from": message.user.username, "text": message.text})
+    messages = [
+        {"from": message.user.username, "text": message.text}
+        for message in
+        Message.objects.select_related("user").order_by("-sent")[:5]
+    ]
     return messages
 
 
 def get_chat_dicts() -> list[dict]:
-    chats = []
-    for chat in Chat.objects.prefetch_related("users"):
-        participants = [user.username for user in chat.users.all()]
-        chats.append(
-            {
-                "id": chat.id,
-                "title": chat.title,
-                "users": participants
-            }
-        )
+    chats = [
+        {
+            "id": chat.id,
+            "title": chat.title,
+            "users": [user.username for user in chat.users.all()]
+        }
+        for chat in Chat.objects.prefetch_related("users")
+    ]
     return chats
