@@ -13,7 +13,8 @@ def get_untitled_chats() -> list[Chat]:
 def get_users_who_sent_messages_in_2015() -> list[str]:
     return list(
         User.objects.filter(
-            message__sent__year=2015).values_list("first_name", "last_name")
+            message__sent__year=2015
+        ).values_list("first_name", "last_name")
     )
 
 
