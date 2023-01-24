@@ -11,11 +11,11 @@ def get_untitled_chats() -> list[Chat]:
 
 
 def get_users_who_sent_messages_in_2015() -> list[str]:
-    return list(Message.objects.filter(
-        sent__year=2015
-    ).values_list(
-        "user__first_name", "user__last_name"
-    ))
+    return list(
+        Message.objects
+        .filter(sent__year=2015)
+        .values_list("user__first_name", "user__last_name")
+    )
 
 
 def get_actual_chats() -> list[Chat]:
@@ -52,8 +52,9 @@ def get_count_messages_sent_by_first_name(first_name: str) -> int:
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
     return list(
-        User.objects.annotate(
-            num_messages=Count("message")).order_by("-num_messages")[:3]
+        User.objects
+        .annotate(num_messages=Count("message"))
+        .order_by("-num_messages")[:3]
     )
 
 
