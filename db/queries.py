@@ -21,7 +21,7 @@ def get_actual_chats() -> list[Chat]:
 
 
 def get_messages_contain_authors_first_name() -> list[Message]:
-    return Message.objects.filter(text__contains=F("user__first_name"))
+    return Message.objects.filter(text__icontains=F("user__first_name"))
 
 
 def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
@@ -52,7 +52,8 @@ def get_last_5_messages_dicts() -> list[dict]:
         {
             "from": message.user.username,
             "text": message.text
-        } for message in queryset
+        }
+        for message in queryset
     ]
 
 
@@ -63,5 +64,6 @@ def get_chat_dicts() -> list[dict]:
             "id": chat.id,
             "title": chat.title,
             "users": [user.username for user in chat.users.all()]
-        } for chat in queryset
+        }
+        for chat in queryset
     ]
