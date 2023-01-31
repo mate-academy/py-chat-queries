@@ -17,7 +17,7 @@ class User(models.Model):
 class Chat(models.Model):
     title = models.CharField(max_length=63)
     description = models.CharField(max_length=255, null=True, blank=True)
-    users = models.ManyToManyField(User)
+    users = models.ManyToManyField(User, related_name="chats")
 
     def __repr__(self) -> str:
         return f"Chat({self.title}, {self.description})"
@@ -27,8 +27,14 @@ class Message(models.Model):
     text = models.TextField()
     sent = models.DateTimeField(auto_now_add=True)
     is_delivered = models.BooleanField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE,
+        related_name="messages"
+    )
+    chat = models.ForeignKey(
+        Chat, on_delete=models.CASCADE,
+        related_name="messages"
+    )
 
     def __repr__(self) -> str:
         return (
