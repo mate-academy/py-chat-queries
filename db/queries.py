@@ -65,16 +65,22 @@ def get_top_users_by_number_of_the_messages() -> list[User]:
 
 
 def get_last_5_messages_dicts() -> list[dict]:
-    result = []
-    for message in Message.objects.order_by(
-            "-sent").select_related("user")[:5]:
-        result.append({"from": message.user.username, "text": message.text})
-    return result
+    queryset = Message.objects.order_by("-sent").select_related("user")[:5]
+    return [
+        {
+            "from": message.user.username,
+            "text": message.text
+        }
+        for message in queryset
+    ]
 
 
 def get_chat_dicts() -> list[dict]:
-    result = []
-    for chat in Chat.objects.all().prefetch_related("users"):
-        users = [user.username for user in chat.users.all()]
-        result.append({"id": chat.id, "title": chat.title, "users": users})
-    return result
+    return [
+        {
+            "id": chat.id,
+            "title": chat.title,
+            "users": [user.username for user in chat.users.all()]
+        }
+        for chat in Chat.objects.all().prefetch_related("users")
+    ]
