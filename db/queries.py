@@ -75,7 +75,10 @@ def get_last_5_messages_dicts() -> list[dict]:
         "-sent"
     )[:5]
     return [
-        {"from": message.user.username, "text": message.text}
+        {
+            "from": message.user.username,
+            "text": message.text
+        }
         for message in queryset
     ]
 
