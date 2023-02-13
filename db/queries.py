@@ -6,7 +6,7 @@ def get_messages_that_contain_word(word: str) -> list[Message]:
     return list(Message.objects.filter(text__icontains=word))
 
 
-def get_untitled_chats() -> list[Chat]:
+def get_untitled_chats() -> list[tuple[str]]:
     return Chat.objects.filter(title__startswith="Untitled")
 
 
@@ -47,9 +47,10 @@ def get_count_messages_sent_by_first_name(first_name: str) -> int:
 
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
-    return User.objects.annotate(
+    queryset = User.objects.annotate(
         num_messages=Count("message__sent")
-    ).order_by("-num_messages")[:3]
+    )
+    return queryset.order_by("-num_messages")[:3]
 
 
 def get_last_5_messages_dicts() -> list[dict]:
