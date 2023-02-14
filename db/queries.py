@@ -7,7 +7,7 @@ def get_messages_that_contain_word(word: str) -> list[Message]:
 
 
 def get_untitled_chats() -> list[Chat]:
-    return Chat.objects.filter(title__startswith="Untitled")
+    return list(Chat.objects.filter(title__startswith="Untitled"))
 
 
 def get_users_who_sent_messages_in_2015() -> list[str]:
@@ -17,11 +17,11 @@ def get_users_who_sent_messages_in_2015() -> list[str]:
 
 
 def get_actual_chats() -> list[Chat]:
-    return Chat.objects.filter(message__sent__year__gt="2020")
+    return list(Chat.objects.filter(message__sent__year__gt="2020"))
 
 
 def get_messages_contain_authors_first_name() -> list[Message]:
-    return Message.objects.filter(text__contains=F("user__first_name"))
+    return list(Message.objects.filter(text__contains=F("user__first_name")))
 
 
 def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
@@ -31,9 +31,9 @@ def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
 
 
 def get_delivered_or_admin_messages() -> list[Message]:
-    return Message.objects.filter(
+    return list(Message.objects.filter(
         Q(user__username__istartswith="admin") | Q(is_delivered=True)
-    )
+    ))
 
 
 def get_count_messages_sent_by_first_name(first_name: str) -> int:
@@ -47,13 +47,13 @@ def get_top_users_by_number_of_the_messages() -> list[User]:
 
 
 def get_last_5_messages_dicts() -> list[dict]:
-    queries_messages = Message.objects.order_by("-sent")[:5]
+    queries = Message.objects.select_related("user").order_by("-sent")[:5]
     return [
         {
             "from": message.user.username,
             "text": message.text
         }
-        for message in queries_messages
+        for message in queries
     ]
 
 
