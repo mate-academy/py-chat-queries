@@ -67,15 +67,14 @@ def get_last_5_messages_dicts() -> list[dict]:
     msg = Message.objects.select_related(
         "user",
     ).order_by("-sent")[:5]
-    new_list = [{
+    return [{
         "from": message.user.username,
         "text": message.text
     } for message in msg]
-    return new_list
 
 
 def get_chat_dicts() -> list[dict]:
-    chats_query = Chat.objects.all().prefetch_related("users")
+    chats_query = Chat.objects.prefetch_related("users")
 
     return [
         {
