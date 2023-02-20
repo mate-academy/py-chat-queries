@@ -10,7 +10,7 @@ def get_untitled_chats() -> list[Chat(tuple[str, str])]:
     return list(Chat.objects.filter(title__startswith="Untitled"))
 
 
-def get_users_who_sent_messages_in_2015() -> list[str]:
+def get_users_who_sent_messages_in_2015() -> list[tuple[str, str]]:
     return list(
         User.objects.filter(
             message__sent__year=2015
