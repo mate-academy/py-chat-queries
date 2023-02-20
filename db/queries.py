@@ -6,8 +6,8 @@ def get_messages_that_contain_word(word: str) -> list[Message]:
     return list(Message.objects.filter(text__icontains=word))
 
 
-def get_untitled_chats() -> list[tuple[str]]:
-    return Chat.objects.filter(title__startswith="Untitled")
+def get_untitled_chats() -> list[Chat(tuple[str, str])]:
+    return list(Chat.objects.filter(title__startswith="Untitled"))
 
 
 def get_users_who_sent_messages_in_2015() -> list[str]:
@@ -38,7 +38,7 @@ def get_delivered_or_admin_messages() -> list[Message]:
     return list(
         Message.objects.filter(
             Q(user__username__startswith="admin")
-            | Q(is_delivered__gte=1))
+            | Q(is_delivered__gte=True))
     )
 
 
@@ -67,7 +67,7 @@ def get_chat_dicts() -> list[dict]:
         {
             "id": chat.id,
             "title": chat.title,
-            "users": [user.username for user in chat.users.all()]
+            "users": list(chat.users.values_list("username", flat=True))
         }
         for chat in Chat.objects.prefetch_related("users")
     ]
