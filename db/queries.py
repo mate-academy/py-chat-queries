@@ -14,7 +14,7 @@ def get_untitled_chats() -> list[Chat]:
     )
 
 
-def get_users_who_sent_messages_in_2015() -> list[str]:
+def get_users_who_sent_messages_in_2015() -> list[tuple]:
     return list(User.objects.filter(
         message__sent__range=["2015-01-01", "2015-12-31"]
     ).values_list("first_name", "last_name"))
@@ -54,10 +54,9 @@ def get_delivered_or_admin_messages() -> list[Message]:
 
 
 def get_count_messages_sent_by_first_name(first_name: str) -> int:
-    queryset = Message.objects.filter(
+    return Message.objects.filter(
         user__first_name=first_name
-    ).aggregate(Count("text"))
-    return queryset["text__count"]
+    ).count()
 
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
