@@ -30,9 +30,7 @@ class Message(models.Model):
     user = models.ForeignKey(User,
                              on_delete=models.CASCADE,
                              related_name="messages")
-    chat = models.ForeignKey(Chat,
-                             on_delete=models.CASCADE,
-                             related_name="messages")
+    chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
 
     def __repr__(self) -> str:
         return (
