@@ -17,8 +17,7 @@ def get_users_who_sent_messages_in_2015() -> list[str]:
 
 
 def get_actual_chats() -> list[Chat]:
-    messages = Message.objects.filter(sent__year__gt="2020")
-    return [message.chat for message in messages]
+    return list(Chat.objects.filter(message__sent__year__gt="2020"))
 
 
 def get_messages_contain_authors_first_name() -> list[Message]:
@@ -39,21 +38,19 @@ def get_delivered_or_admin_messages() -> list[Message]:
 
 
 def get_count_messages_sent_by_first_name(first_name: str) -> int:
-    number_of_messages = Message.objects.filter(
-        user__first_name=first_name
-    ).aggregate(count=Count("text"))
-    return number_of_messages["count"]
+    return Message.objects.filter(user__first_name=first_name).count()
 
 
 def get_top_users_by_number_of_the_messages() -> list[User]:
     return list(User.objects.annotate(
         num_messages=Count("messages")
-    ).order_by("-num_messages")[0:3])
+    ).order_by("-num_messages")[:3])
 
 
 def get_last_5_messages_dicts() -> list[dict]:
-    messages = Message.objects.all().order_by(
-        "-sent").select_related("user")[:5]
+    messages = (
+        Message.objects.all().order_by("-sent").select_related("user")[:5]
+    )
     return [
         {"from": message.user.username, "text": message.text}
         for message in messages
@@ -61,14 +58,11 @@ def get_last_5_messages_dicts() -> list[dict]:
 
 
 def get_chat_dicts() -> list[dict]:
-    result = []
-    for chat in Chat.objects.all().prefetch_related("users"):
-        users = [user.username for user in chat.users.all()]
-        result.append(
-            {
-                "id": chat.id,
-                "title": chat.title,
-                "users": users
-            }
-        )
-    return result
+    return [
+        {
+            "id": chat.id,
+            "title": chat.title,
+            "users": [user.username for user in chat.users.all()]
+        }
+        for chat in Chat.objects.prefetch_related("users")
+    ]
