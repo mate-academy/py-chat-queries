@@ -69,6 +69,6 @@ def get_chat_dicts() -> list[dict]:
     for chat in chats:
         users = [user.username for user in chat.users.all()]
         list_with_chat_dict.append(
-            {"id": chat.id, "title": chat.title,"users": users}
+            {"id": chat.id, "title": chat.title, "users": users}
         )
     return list_with_chat_dict
