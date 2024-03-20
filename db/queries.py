@@ -22,15 +22,15 @@ def get_actual_chats() -> list[Chat]:
 
 def get_messages_contain_authors_first_name() -> list[Message]:
     messages = Message.objects.filter(text__icontains=F("user__first_name"))
-    return [message for message in messages]
+    return list(messages)
 
 
 def get_users_who_sent_messages_starts_with_m_or_a() -> list[User]:
-    users = Message.objects.filter(
-        Q(text__istartswith="a")
-        | Q(text__istartswith="m")
+    users = User.objects.filter(
+        Q(message__text__istartswith="a")
+        | Q(message__text__istartswith="m")
     )
-    return [user.user for user in users]
+    return list(users)
 
 
 def get_delivered_or_admin_messages() -> list[Message]:
